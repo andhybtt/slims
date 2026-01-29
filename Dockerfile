@@ -11,6 +11,11 @@ RUN apt-get update \
 
 RUN a2enmod rewrite
 
+RUN printf "<Directory /var/www/html>\n\
+AllowOverride All\n\
+Require all granted\n\
+</Directory>\n" >> /etc/apache2/apache2.conf
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /var/www/html
@@ -31,4 +36,3 @@ EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["apache2-foreground"]
-
